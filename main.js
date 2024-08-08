@@ -1,36 +1,4 @@
 import './style.css'
-// import javascriptLogo from './javascript.svg'
-// import viteLogo from '/vite.svg'
-// import { setupCounter } from './counter.js'
-
-// document.querySelector('#app').innerHTML = `
-//   <div>
-//     <a href="https://vitejs.dev" target="_blank">
-//       <img src="${viteLogo}" class="logo" alt="Vite logo" />
-//     </a>
-//     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-//       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-//     </a>
-//     <h1>Hello Vite!</h1>
-//     <div class="card">
-//       <button id="counter" type="button"></button>
-//     </div>
-//     <p class="read-the-docs">
-//       Click on the Vite logo to learn more
-//     </p>
-//   </div>
-// `
-
-// setupCounter(document.querySelector('#counter'))
-
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-// import './css/styles.css';
-// import './images/turing-logo.png';
-// import merchantsData from './data/merchants';
-// import itemsData from './data/items';
-console.log('heather')
-
 import {fetchData, postData, deleteData, editData} from './apiCalls'
 
 const itemsView = document.querySelector("#items-view")
@@ -64,7 +32,6 @@ let items;
 
 Promise.all([fetchData('merchants'), fetchData('items')])
 .then(responses => {
-    console.log('fetched data: ', responses)
     merchants = responses[0].data
     items = responses[1].data
     displayMerchants(merchants)
@@ -76,9 +43,7 @@ Promise.all([fetchData('merchants'), fetchData('items')])
 function addNew() {
   if (addNewButton.dataset.state === "merchant") {
     show([merchantForm])
-  } else if (addNewButton.dataset.state === "items") {
-    // console.log('items')
-  }
+  } 
 }
 
 function deleteMerchant(event) {
@@ -92,7 +57,6 @@ function deleteMerchant(event) {
         displayMerchants(merchants)
       }
     })
-  //do i need to delete all the related items when a merchant is deleted?  FE story?
 }
 
 function editMerchant(event) {
@@ -121,7 +85,6 @@ function submitMerchantEdits(event) {
 }
 
 function discardMerchantEdits(event) {
-  console.log('inside discardMerchantEdits function')
   const article = event.target.closest("article")
   const editInput = article.querySelector(".edit-merchant-input")
   const submitEditsButton = article.querySelector(".submit-merchant-edits")
@@ -165,18 +128,17 @@ function showAllMerchants() {
   showingText.innerText = "All Merchants"
   addRemoveActiveNav(merchantsNavButton, itemsNavButton)
   addNewButton.dataset.state = 'merchant'
-  show([merchantsView])
+  show([merchantsView, addNewButton])
   hide([itemsView])
   displayMerchants(merchants)
 }
 
 function showAllItems() {
-  console.log('is this working?')
   showingText.innerText = "All Items"
   addRemoveActiveNav(itemsNavButton, merchantsNavButton)
   addNewButton.dataset.state = 'item'
   show([itemsView])
-  hide([merchantsView, merchantForm])
+  hide([merchantsView, merchantForm, addNewButton])
   displayItems(items)
 }
 
@@ -188,7 +150,6 @@ function filterByMerchant(merchantId) {
 }
 
 function displayItems(items) {
-  console.log('DISPLAYING ITEMS BUT ONLY 100')
   itemsView.innerHTML = ''
   let firstHundredItems = items.slice(0, 99)
   firstHundredItems.forEach(item => {
