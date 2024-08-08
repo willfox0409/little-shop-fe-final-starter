@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Little Shop</title>
+  </head>
+  <body>
+    <aside>
+      <header>
+        <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
+        <h1>Little Shop</h1>
+      </header>
+      <nav>
+        <button id="merchants-nav" class="active-nav">
+          <h2>Merchants</h2>
+        </button>
+        <button id="items-nav">
+          <h2>Items</h2>
+        </button>
+      </nav>
+    </aside>
+    <main>
+      <h2>Admin Portal</h2>
+      <section class="display-options">
+        <h3>Showing: <span id="showing-text">All Merchants</span></h3>
+        <div>
+        <button id="add-new-button" class="add-new-button" data-state="merchant">Add New</button>
+          <label for="sort-by">Sort By:</label>
+          <select id="sort-by" name="sort-by">
+            <option value="Name: A>Z">Name: A>Z</option>
+            <option value="Newest > Oldest">Newest > Oldest</option>
+          </select>
+        </div>
+      </section>
+      <section id="add-new-options">
+        <form id="new-merchant-form" class="hidden">
+          <label for="new-merchant-name">New Merchant Name</label>
+          <input id="new-merchant-name" name="new-merchant-name" type="text">
+          <button id="submit-merchant" class="submit">Submit</button>
+        </form>
+        <p id="successful-add" class="success hidden">Success! Merchant has been added.</p>
+        <form id="new-merchant-form" class="hidden">
+          <label for="new-item-name">New Item Name</label>
+          <input id="new-item-name" name="new-item-name" type="text">
+          <label for="new-item-description">New Item Description</label>
+          <input id="new-item-description" name="new-item-description" type="text">
+          <label for="new-item-price">New Item Price</label>
+          <input id="new-item-price" name="new-item-price" type="text">
+          <button id="submit-item" class="submit">Submit</button>
+        </form>
+      </section>
+      <section id="merchants-view" class="view">
+          <!-- Data will be displayed here -->
+        </section>
+        
+        <section id="items-view" class="view hidden">
+        </section>
+
+        <section id="single-merchant-view" class="view hidden">
+        </section>
+    </main>
+
+
+
+
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
+
