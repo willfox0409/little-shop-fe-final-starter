@@ -1,35 +1,40 @@
 import './style.css'
 import {fetchData, postData, deleteData, editData} from './apiCalls'
 
+//Sections, buttons, text
 const itemsView = document.querySelector("#items-view")
 const merchantsView = document.querySelector("#merchants-view")
-const showingText = document.querySelector("#showing-text")
 const merchantsNavButton = document.querySelector("#merchants-nav")
 const itemsNavButton = document.querySelector("#items-nav")
 const addNewButton = document.querySelector("#add-new-button")
-
-//form elements
-const merchantForm = document.querySelector("#new-merchant-form")
-const newMerchantName = document.querySelector("#new-merchant-name")
-const newItemName = document.querySelector("#new-item-name")
-const submitMerchantButton = document.querySelector("#submit-merchant")
-const submitItemButton = document.querySelector("#submit-item")
+const showingText = document.querySelector("#showing-text")
 const successfulAdd = document.querySelector("#successful-add")
 
 
+//Form elements
+const merchantForm = document.querySelector("#new-merchant-form")
+const newMerchantName = document.querySelector("#new-merchant-name")
+const submitMerchantButton = document.querySelector("#submit-merchant")
+
+// Event Listeners
 merchantsView.addEventListener('click', (event) => {
   handleMerchantClicks(event)
 })
 
-merchantsNavButton.addEventListener('click', showAllMerchants)
-itemsNavButton.addEventListener('click', showAllItems)
+merchantsNavButton.addEventListener('click', showMerchantsView)
+itemsNavButton.addEventListener('click', showItemsView)
 
-addNewButton.addEventListener('click', addNew)
+addNewButton.addEventListener('click', () => {
+  show([merchantForm])
+})
+
 submitMerchantButton.addEventListener('click', submitMerchant)
 
+//Global variables
 let merchants;
 let items;
 
+//Page load data fetching
 Promise.all([fetchData('merchants'), fetchData('items')])
 .then(responses => {
     merchants = responses[0].data
@@ -40,10 +45,19 @@ Promise.all([fetchData('merchants'), fetchData('items')])
     console.log('catch error: ', err)
   })
 
-function addNew() {
-  if (addNewButton.dataset.state === "merchant") {
-    show([merchantForm])
-  } 
+// Merchant CRUD Functions
+function handleMerchantClicks(event) {
+  if (event.target.classList.contains("delete-merchant")) {
+    deleteMerchant(event)
+  } else if (event.target.classList.contains("edit-merchant")) {
+    editMerchant(event)
+  } else if (event.target.classList.contains("view-merchant-items")) {
+    displayMerchantItems(event)
+  } else if (event.target.classList.contains("submit-merchant-edits")) {
+    submitMerchantEdits(event)
+  } else if (event.target.classList.contains("discard-merchant-edits")) {
+    discardMerchantEdits(event)
+  }
 }
 
 function deleteMerchant(event) {
@@ -94,20 +108,6 @@ function discardMerchantEdits(event) {
   hide([editInput, submitEditsButton, discardEditsButton])
 }
 
-function handleMerchantClicks(event) {
-  if (event.target.classList.contains("delete-merchant")) {
-    deleteMerchant(event)
-  } else if (event.target.classList.contains("edit-merchant")) {
-    editMerchant(event)
-  } else if (event.target.classList.contains("view-merchant-items")) {
-    displayMerchantItems(event)
-  } else if (event.target.classList.contains("submit-merchant-edits")) {
-    submitMerchantEdits(event)
-  } else if (event.target.classList.contains("discard-merchant-edits")) {
-    discardMerchantEdits(event)
-  }
-}
-
 function submitMerchant() {
   event.preventDefault()
   var merchantName = newMerchantName.value
@@ -124,7 +124,8 @@ function submitMerchant() {
     })
 }
 
-function showAllMerchants() {
+// Functions that control the view 
+function showMerchantsView() {
   showingText.innerText = "All Merchants"
   addRemoveActiveNav(merchantsNavButton, itemsNavButton)
   addNewButton.dataset.state = 'merchant'
@@ -133,7 +134,7 @@ function showAllMerchants() {
   displayMerchants(merchants)
 }
 
-function showAllItems() {
+function showItemsView() {
   showingText.innerText = "All Items"
   addRemoveActiveNav(itemsNavButton, merchantsNavButton)
   addNewButton.dataset.state = 'item'
@@ -142,13 +143,16 @@ function showAllItems() {
   displayItems(items)
 }
 
-function filterByMerchant(merchantId) {
-  const specificMerchantItems = items.filter(item => {
-    return item.attributes.merchant_id === parseInt(merchantId)
-  })
-  return specificMerchantItems
+function showMerchantItemsView(id, items) {
+  showingText.innerText = `All Items for Merchant #${id}`
+  show([itemsView])
+  hide([merchantsView, addNewButton])
+  addRemoveActiveNav(itemsNavButton, merchantsNavButton)
+  addNewButton.dataset.state = 'item'
+  displayItems(items)
 }
 
+// Functions that add data to the DOM
 function displayItems(items) {
   itemsView.innerHTML = ''
   let firstHundredItems = items.slice(0, 99)
@@ -166,13 +170,6 @@ function displayItems(items) {
         </article>
     `
   })
-}
-
-function findMerchant(id) {
-  const result = merchants.find(merchant => {
-    return parseInt(merchant.id) === parseInt(id)
-  })
-  return result
 }
 
 function displayMerchants(merchants) {
@@ -215,19 +212,10 @@ function displayAddedMerchant(merchant) {
 function displayMerchantItems(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   const filteredMerchantItems = filterByMerchant(merchantId)
-  toggleToMerchantItemsView(merchantId, filteredMerchantItems)
+  showMerchantItemsView(merchantId, filteredMerchantItems)
 }
 
-
-function toggleToMerchantItemsView(id, items) {
-  showingText.innerText = `All Items for Merchant #${id}`
-  show([itemsView])
-  hide([merchantsView])
-  addRemoveActiveNav(itemsNavButton, merchantsNavButton)
-  addNewButton.dataset.state = 'item'
-  displayItems(items)
-}
-
+//Helper Functions
 function show(elements) {
   elements.forEach(element => {
     element.classList.remove('hidden')
@@ -245,4 +233,26 @@ function addRemoveActiveNav(nav1, nav2) {
   nav2.classList.remove('active-nav')
 }
 
+function filterByMerchant(merchantId) {
+  const specificMerchantItems = []
 
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].attributes.merchant_id === parseInt(merchantId)) {
+      specificMerchantItems.push(items[i])
+    }
+  }
+
+  return specificMerchantItems
+}
+
+function findMerchant(id) {
+  let foundMerchant;
+
+  for (let i = 0; i < merchants.length; i++) {
+    if (parseInt(merchants[i].id) === parseInt(id)) {
+      foundMerchant = merchants[i]
+      return foundMerchant
+    }
+  }
+
+}
