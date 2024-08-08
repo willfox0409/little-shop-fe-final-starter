@@ -64,12 +64,13 @@ let items;
 
 Promise.all([fetchData('merchants'), fetchData('items')])
 .then(responses => {
+    console.log('fetched data: ', responses)
     merchants = responses[0].data
     items = responses[1].data
     displayMerchants(merchants)
   })
   .catch(err => {
-    console.log('catch')
+    console.log('catch error: ', err)
   })
 
 function addNew() {
@@ -120,6 +121,7 @@ function submitMerchantEdits(event) {
 }
 
 function discardMerchantEdits(event) {
+  console.log('inside discardMerchantEdits function')
   const article = event.target.closest("article")
   const editInput = article.querySelector(".edit-merchant-input")
   const submitEditsButton = article.querySelector(".submit-merchant-edits")
@@ -170,14 +172,11 @@ function showAllMerchants() {
 
 function showAllItems() {
   console.log('is this working?')
-  console.log('items: ', items)
-  console.log('current text: ', showingText.innerText)
-  console.log('state: ', addNewButton.dataset.state)
   showingText.innerText = "All Items"
   addRemoveActiveNav(itemsNavButton, merchantsNavButton)
   addNewButton.dataset.state = 'item'
   show([itemsView])
-  hide([merchantsView])
+  hide([merchantsView, merchantForm])
   displayItems(items)
 }
 
@@ -189,8 +188,10 @@ function filterByMerchant(merchantId) {
 }
 
 function displayItems(items) {
+  console.log('DISPLAYING ITEMS BUT ONLY 100')
   itemsView.innerHTML = ''
-  items.forEach(item => {
+  let firstHundredItems = items.slice(0, 99)
+  firstHundredItems.forEach(item => {
     let merchant = findMerchant(item.attributes.merchant_id).attributes.name
     itemsView.innerHTML += `
      <article class="item" id="item-${item.id}">
@@ -199,6 +200,7 @@ function displayItems(items) {
           <p>${item.attributes.description}</p>
           <p>$${item.attributes.unit_price}</p>
           <p class="merchant-name-in-item">Merchant: ${merchant}</p>
+
           <button>ORDER</button>
         </article>
     `
