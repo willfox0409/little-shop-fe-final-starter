@@ -1,4 +1,4 @@
-# Little Shop FE Vite
+# Little Shop FE 
 
 Vite version of the Little Shop FE Boilerplate which will be used for the SE2 Group Project.
 
