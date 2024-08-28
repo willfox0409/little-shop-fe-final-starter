@@ -4,8 +4,10 @@ function showStatus(message, isSuccessful) {
     statusMessage.innerText = message
 
     if (isSuccessful) {
+      statusMessage.classList.remove('fail')
       statusMessage.classList.add('success')
     } else {
+      statusMessage.classList.remove('success')
       statusMessage.classList.add('fail')
     }
 
@@ -13,9 +15,7 @@ function showStatus(message, isSuccessful) {
 
     setTimeout(() => {
       statusMessage.classList.add('hidden')
-      statusMessage.classList.remove('fail')
-      statusMessage.classList.remove('success')
-    }, "5000")
+    }, "4000")
   }
 
   export {

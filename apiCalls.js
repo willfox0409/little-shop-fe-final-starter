@@ -4,10 +4,10 @@ import {showStatus} from './errorHandling'
 const base = 'http://localhost:3000/api/v1/'
 
 const checkForError = response => {
-  if (!response.ok) {
-    throw new Error();
-  } else {
+  if (response.ok) {
     return response.json();
+  } else {
+    throw new Error();
   }
 }
 
@@ -42,7 +42,13 @@ function deleteData(endpoint) {
       "Content-Type": "application/json"
     }
   })
-  .then(response => checkForError(response))  
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error();
+    }
+  })  
   .catch(error => {
     console.log(error)
     showStatus('Failed to delete merchant. Try again later.', false)
