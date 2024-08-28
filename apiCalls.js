@@ -1,12 +1,23 @@
+import {showStatus} from './errorHandling'
+
 // Your fetch requests will live here
 const base = 'http://localhost:3000/api/v1/'
 
+const checkForError = response => {
+  if (!response.ok) {
+    throw new Error();
+  } else {
+    return response.json();
+  }
+}
+
 function fetchData(endpoint) {
   return fetch(base + endpoint)
-    .then(res => {
-      return res.json()
-    })  
-  
+    .then(response => checkForError(response))  
+    .catch(error => {
+      console.log(error)
+      showStatus('Failed to fetch data. Try again later.', false)
+    })
 }
 
 function postData(endpoint, body) {
@@ -17,7 +28,11 @@ function postData(endpoint, body) {
       "Content-Type": "application/json"
     }
   })
-    .then(res => res.json())
+    .then(response => checkForError(response))  
+    .catch(error => {
+      console.log(error)
+      showStatus('Failed to create merchant. Try again later.', false)
+    })
 }
 
 function deleteData(endpoint) {
@@ -26,6 +41,11 @@ function deleteData(endpoint) {
     headers: {
       "Content-Type": "application/json"
     }
+  })
+  .then(response => checkForError(response))  
+  .catch(error => {
+    console.log(error)
+    showStatus('Failed to delete merchant. Try again later.', false)
   })
 }
 
@@ -37,13 +57,12 @@ function editData(endpoint, body) {
       "Content-Type": "application/json"
     }
   })
-    .then(res => res.json())
+    .then(response => checkForError(response))  
+    .catch(error => {
+      console.log(error)
+      showStatus('Failed to edit merchant. Try again later.', false)
+    })
 }
-// await fetch("https://example.org/post", {
-//   method: "POST",
-//   body: JSON.stringify({ username: "example" }),
-//   headers: myHeaders,
-// });
 
 export {
   fetchData,

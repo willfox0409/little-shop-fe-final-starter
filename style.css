@@ -26,7 +26,6 @@ header {
   background-color: black;
   color: white;
   padding: 15px;
-  border-radius: 10px;
 }
 
 h1 {
@@ -72,7 +71,6 @@ form {
 
 .item,
 .merchant {
-  border-radius: 10px;
   display: flex;
   background-color: lightgray;
   margin: 10px;
@@ -119,9 +117,14 @@ form {
   color: green;
 }
 
+.fail {
+  color: red;
+}
+
 /* HIDDEN ELEMENTS */
 
 .hidden {
   display: none;
 } 
   
+co
