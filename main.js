@@ -1,5 +1,6 @@
 import './style.css'
 import {fetchData, postData, deleteData, editData} from './apiCalls'
+import {showStatus} from './errorHandling'
 
 //Sections, buttons, text
 const itemsView = document.querySelector("#items-view")
@@ -8,8 +9,6 @@ const merchantsNavButton = document.querySelector("#merchants-nav")
 const itemsNavButton = document.querySelector("#items-nav")
 const addNewButton = document.querySelector("#add-new-button")
 const showingText = document.querySelector("#showing-text")
-const successfulAdd = document.querySelector("#successful-add")
-
 
 //Form elements
 const merchantForm = document.querySelector("#new-merchant-form")
@@ -28,7 +27,9 @@ addNewButton.addEventListener('click', () => {
   show([merchantForm])
 })
 
-submitMerchantButton.addEventListener('click', submitMerchant)
+submitMerchantButton.addEventListener('click', (event) => {
+  submitMerchant(event)
+})
 
 //Global variables
 let merchants;
@@ -63,13 +64,12 @@ function handleMerchantClicks(event) {
 function deleteMerchant(event) {
   const id = event.target.closest("article").id.split('-')[1]
   deleteData(`merchants/${id}`)
-    .then(response => {
-      if (response.status === 204) {
-        let deletedMerchant = findMerchant(id)
-        let indexOfMerchant = merchants.indexOf(deletedMerchant)
-        let deleted = merchants.splice(indexOfMerchant, 1)
-        displayMerchants(merchants)
-      }
+    .then(() => {
+      let deletedMerchant = findMerchant(id)
+      let indexOfMerchant = merchants.indexOf(deletedMerchant)
+      merchants.splice(indexOfMerchant, 1)
+      displayMerchants(merchants)
+      showStatus('Success! Merchant removed!', true)
     })
 }
 
@@ -84,11 +84,12 @@ function editMerchant(event) {
 }
 
 function submitMerchantEdits(event) {
+  event.preventDefault();
   const article = event.target.closest("article")
   const editInput = article.querySelector(".edit-merchant-input")
   const id = article.id.split('-')[1]
 
-  const patchBody = { name: editInput.value }
+  const patchBody = {  }
   editData(`merchants/${id}`, patchBody)
     .then(patchResponse => {
       let merchantToUpdate = findMerchant(patchResponse.data.id)
@@ -108,7 +109,7 @@ function discardMerchantEdits(event) {
   hide([editInput, submitEditsButton, discardEditsButton])
 }
 
-function submitMerchant() {
+function submitMerchant(event) {
   event.preventDefault()
   var merchantName = newMerchantName.value
   postData('merchants', { name: merchantName })
@@ -116,11 +117,8 @@ function submitMerchant() {
       merchants.push(postedMerchant.data)
       displayAddedMerchant(postedMerchant.data)
       newMerchantName.value = ''
-      show([successfulAdd])
+      showStatus('Success! Merchant added!', true)
       hide([merchantForm]) 
-      setTimeout(() => {
-        hide([successfulAdd])
-      }, "1000")
     })
 }
 
@@ -196,16 +194,18 @@ function displayAddedMerchant(merchant) {
       merchantsView.insertAdjacentHTML('beforeend', 
       `<article class="merchant" id="merchant-${merchant.id}">
           <h3 class="merchant-name">${merchant.attributes.name}</h3>
-          <button class="edit-merchant icon">✎</button>
-          <input class="edit-merchant-input hidden" name="edit-merchant" type="text">
-          <button class="submit-merchant-edits hidden">
-            Submit Edits
-          </button>
-          <button class="discard-merchant-edits hidden">
-            Discard Edits
-          </button>
-          <button class="view-merchant-items">View Merchant Items</button>
-          <button class="delete-merchant icon">🗑️</button>
+          <div>
+            <button class="view-merchant-items">View Merchant Items</button>
+            <button class="edit-merchant icon">✎</button>
+            <input class="edit-merchant-input hidden" name="edit-merchant" type="text">
+            <button class="submit-merchant-edits hidden">
+              Submit Edits
+            </button>
+            <button class="discard-merchant-edits hidden">
+              Discard Edits
+            </button>
+            <button class="delete-merchant icon">🗑️</button>
+          </div>
         </article>`)
 }
 
@@ -254,5 +254,4 @@ function findMerchant(id) {
       return foundMerchant
     }
   }
-
 }
