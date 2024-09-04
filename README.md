@@ -1,6 +1,6 @@
-# Little Shop | Group Project | Frontend Starter Repo
+# Little Shop | Final Project | Frontend Starter Repo
 
-Vite version of the Little Shop FE Boilerplate which will be used for the SE2 Group Project.
+Vite version of the Little Shop FE Boilerplate which will be used for the SE2 Final Project.
 
 ## Set Up Instructions
 
