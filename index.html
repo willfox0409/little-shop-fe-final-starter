@@ -15,16 +15,17 @@
       </header>
       <nav>
         <button id="merchants-nav" class="active-nav">
-          <h2>Merchants</h2>
+          <p>Merchants</p>
         </button>
         <button id="items-nav">
-          <h2>Items</h2>
+          <p>Items</p>
         </button>
       </nav>
     </aside>
     <main>
       <section class="display-options">
         <h3>Showing: <span id="showing-text">All Merchants</span></h3>
+        <p id="status-message" class="hidden"><!-- Status message here! --></p>
         <button id="add-new-button" class="add-new-button" data-state="merchant">+ Add New Merchant</button>
         <form id="new-merchant-form" class="hidden">
           <input id="new-merchant-name" name="new-merchant-name" type="text" placeholder="New Merchant Name">
@@ -32,8 +33,6 @@
         </form>
       </section>
       <section id="add-new-options">
-        
-        <p id="status-message" class="hidden"><!-- Status message here! --></p>
       </section>
       <section id="merchants-view" class="view">
           <!-- Data will be displayed here -->
@@ -41,7 +40,7 @@
         <section id="items-view" class="view hidden">
           <!-- Data will be displayed here -->
         </section>
-        <section id="single-merchant-view" class="view hidden">
+        <section id="coupons-view" class="view hidden">
           <!-- Data will be displayed here -->
         </section>
     </main>
