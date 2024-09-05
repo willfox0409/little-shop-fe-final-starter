@@ -150,7 +150,7 @@ h3 {
   transform: translateY(-5px);
 }
 
-#items-view {
+.items-view {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

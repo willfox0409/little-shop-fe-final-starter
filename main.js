@@ -152,14 +152,14 @@ function showItemsView() {
   addRemoveActiveNav(itemsNavButton, merchantsNavButton)
   addNewButton.dataset.state = 'item'
   show([itemsView])
-  hide([merchantsView, merchantForm, addNewButton])
+  hide([merchantsView, merchantForm, addNewButton, couponsView])
   displayItems(items)
 }
 
 function showMerchantItemsView(id, items) {
   showingText.innerText = `All Items for Merchant #${id}`
   show([itemsView])
-  hide([merchantsView, addNewButton])
+  hide([merchantsView, addNewButton, couponsView])
   addRemoveActiveNav(itemsNavButton, merchantsNavButton)
   addNewButton.dataset.state = 'item'
   displayItems(items)
@@ -236,7 +236,7 @@ function getMerchantCoupons(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   console.log("Merchant ID:", merchantId)
 
-  fetchData("merchants")
+  fetchData(`merchants/${merchantId}`)
   .then(couponData => {
     console.log("Coupon data from fetch:", couponData)
     displayMerchantCoupons(couponData);
@@ -245,10 +245,10 @@ function getMerchantCoupons(event) {
 
 function displayMerchantCoupons(coupons) {
   show([couponsView])
-  hide([merchantsView, addNewButton])
+  hide([merchantsView, itemsView])
 
   couponsView.innerHTML = `
-    <p>Coupon data will go here</p>
+    <p>Coupon data will go here.</p>
   `
 }
 
