@@ -3,6 +3,7 @@ import {fetchData, postData, deleteData, editData} from './apiCalls'
 import {showStatus} from './errorHandling'
 
 //Sections, buttons, text
+const couponsView = document.querySelector("#coupons-view")
 const itemsView = document.querySelector("#items-view")
 const merchantsView = document.querySelector("#merchants-view")
 const merchantsNavButton = document.querySelector("#merchants-nav")
@@ -53,6 +54,8 @@ function handleMerchantClicks(event) {
     deleteMerchant(event)
   } else if (event.target.classList.contains("edit-merchant")) {
     editMerchant(event)
+  } else if (event.target.classList.contains("view-merchant-coupons")) {
+    getMerchantCoupons(event)
   } else if (event.target.classList.contains("view-merchant-items")) {
     displayMerchantItems(event)
   } else if (event.target.classList.contains("submit-merchant-edits")) {
@@ -227,6 +230,26 @@ function displayMerchantItems(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   const filteredMerchantItems = filterByMerchant(merchantId)
   showMerchantItemsView(merchantId, filteredMerchantItems)
+}
+
+function getMerchantCoupons(event) {
+  let merchantId = event.target.closest("article").id.split('-')[1]
+  console.log("Merchant ID:", merchantId)
+
+  fetchData("merchants")
+  .then(couponData => {
+    console.log("Coupon data from fetch:", couponData)
+    displayMerchantCoupons(couponData);
+  })
+}
+
+function displayMerchantCoupons(coupons) {
+  show([couponsView])
+  hide([merchantsView, addNewButton])
+
+  couponsView.innerHTML = `
+    <p>Coupon data will go here</p>
+  `
 }
 
 //Helper Functions
