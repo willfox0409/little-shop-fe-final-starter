@@ -1,130 +1,205 @@
-/* GENERAL */
- 
-* {
-  font-family: sans-serif;
+/* VARIABLES */
+:root {
+--red: #FF6F61;
+--yellow: #FFD166;
+--mint: #06D6A0; 
+--blue: #118AB2;
+--lt-blue: ;
+--beige: #f1efe6;
+--charcoal: #333;
+--green: #28a745;
+--dk-green: #218838;
 }
 
-body, html {
-  background-color: gray;
+/* GENERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
 }
 
 body {
+  background-color: var(--beige);
+  color: var(--charcoal);
   display: flex;
-  margin: 0px;
+  height: 100vh;
 }
 
-/* SIDEBAR */
-
-aside {
-  width: 25%;
-  margin: none;
-}
-
-header {
-  text-align: center;
-  margin: 10px 10px 80px 10px;
-  background-color: black;
+button {
+  border: none;
+  border-radius: 5px;
+  background-color: var(--blue);
   color: white;
-  padding: 15px;
+  font-size: 14px;
+  padding: 10px 15px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 200px;
+}
+
+/* ASIDE */
+aside {
+  background-color: var(--blue);
+  color: #fff;
+  width: 20%;
+  padding: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* HEADER */
+header {
+  padding-top: 25px;
+  text-align: center;
 }
 
 h1 {
-  font-size: 2.5em;
+  letter-spacing: 3px;
+  font-size: 50px;
 }
 
-h1, 
 h2 {
-  margin: 0;
+  font-size: 25px;
+  font-weight: normal;
 }
 
+/* NAV */
 nav {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  margin-top: 100px;
 }
 
-nav > button {
-  border: none;
-  margin-bottom: 20px;
-  background-color: gray;
-  width: 65%;
-  text-align: center;
-  border-radius: 10px 0px 0px 10px;
+nav button {
+  background-color: transparent;
+  color: #fff;
+  font-size: 20px;
   padding: 20px;
+  text-align: right;
+  border-radius: 5px 0px 0px 5px;
 }
 
-.active-nav {
-  background-color: white;
+nav button.active-nav {
+  background-color: var(--beige);
+  color: var(--blue);
 }
+
+nav button:not(.active-nav):hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+} 
 
 /* MAIN */
-
 main {
-  padding: 10px;
-  width: 75%;
-  background-color: white;
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  width: 80%;
 }
 
-form {
-  display: flex;
+h3 {
+  font-size: 22px;
+  color: var(--charcoal);
 }
 
-.item,
-.merchant {
-  display: flex;
-  background-color: lightgray;
-  margin: 10px;
-  padding: 5px;
+/* ADD MERCHANT */
+.add-new-button {
+  background-color: var(--green);
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-.item {
-  width: 30%;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.merchant {
-  width: 98%;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.view-items-button {
-  padding: 5px;
-  margin-right: 10px;
-}
-
-.merchant-name {
-  padding-left: 10px;
-  margin: 0px;
+.add-new-button:hover {
+  background-color: var(--dk-green);
 }
 
 .display-options {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#new-merchant-form > button:hover {
+  background-color: #fff;
+  color: var(--blue);
+}
+
+/* MERCHANT + ITEM CARDS */
+.merchant, .item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.display-options > button {
-  margin-left: 15px;
+.merchant:hover,
+.item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.merchant-name-in-item {
-  display: inline;
+#items-view {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.success {
-  color: green;
+.item {
+  flex-direction: column;
+  width: 30%;
+  text-align: center;
 }
 
-.fail {
-  color: red;
+.item p,
+.item h2 {
+  margin: 5px;
+} 
+
+.merchant-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-/* HIDDEN ELEMENTS */
+.merchant-options > button:hover {
+  background-color: var(--beige);
+  color: var(--blue);
+}
 
+.merchant-options > .submit-merchant-edits {
+  background-color: var(--green);
+}
+
+.merchant-options > .submit-merchant-edits:hover {
+  color: var(--green);
+}
+
+.merchant-options > .discard-merchant-edits,
+.merchant-options > .delete-merchant {
+  background-color: var(--red);
+}
+
+.merchant-options > .discard-merchant-edits:hover,
+.merchant-options > .delete-merchant:hover {
+  color: var(--red);
+}
+
+/* HIDDEN */
 .hidden {
   display: none;
-} 
-  
-co
+}

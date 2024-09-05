@@ -24,6 +24,7 @@ merchantsNavButton.addEventListener('click', showMerchantsView)
 itemsNavButton.addEventListener('click', showItemsView)
 
 addNewButton.addEventListener('click', () => {
+  hide([addNewButton])
   show([merchantForm])
 })
 
@@ -79,8 +80,13 @@ function editMerchant(event) {
   const editInput = article.querySelector(".edit-merchant-input")
   const submitEditsButton = article.querySelector(".submit-merchant-edits")
   const discardEditsButton = article.querySelector(".discard-merchant-edits")
+  const viewCouponButton = article.querySelector(".view-merchant-coupons")
+  const viewItemsButton = article.querySelector(".view-merchant-items")
+  const editMerchantButton = article.querySelector(".edit-merchant")
+  const deleteMerchantButton = article.querySelector(".delete-merchant")
   editInput.value = h3Name.innerText
   show([editInput, submitEditsButton, discardEditsButton])
+  hide([viewCouponButton, viewItemsButton, editMerchantButton, deleteMerchantButton])
 }
 
 function submitMerchantEdits(event) {
@@ -105,9 +111,14 @@ function discardMerchantEdits(event) {
   const editInput = article.querySelector(".edit-merchant-input")
   const submitEditsButton = article.querySelector(".submit-merchant-edits")
   const discardEditsButton = article.querySelector(".discard-merchant-edits")
+  const viewCouponButton = article.querySelector(".view-merchant-coupons")
+  const viewItemsButton = article.querySelector(".view-merchant-items")
+  const editMerchantButton = article.querySelector(".edit-merchant")
+  const deleteMerchantButton = article.querySelector(".delete-merchant")
 
   editInput.value = ""
   hide([editInput, submitEditsButton, discardEditsButton])
+  show([viewCouponButton, viewItemsButton, editMerchantButton, deleteMerchantButton])
 }
 
 function submitMerchant(event) {
@@ -175,9 +186,10 @@ function displayMerchants(merchants) {
         merchantsView.innerHTML += 
         `<article class="merchant" id="merchant-${merchant.id}">
           <h3 class="merchant-name">${merchant.attributes.name}</h3>
-          <div>
-            <button class="view-merchant-items">View Merchant Items</button>
-            <button class="edit-merchant icon">✎</button>
+          <div class="merchant-options">
+            <button class="view-merchant-coupons">View Coupons</button>
+            <button class="view-merchant-items">View Items</button>
+            <button class="edit-merchant">Edit</button>
             <input class="edit-merchant-input hidden" name="edit-merchant" type="text">
             <button class="submit-merchant-edits hidden">
               Submit Edits
@@ -185,9 +197,9 @@ function displayMerchants(merchants) {
             <button class="discard-merchant-edits hidden">
               Discard Edits
             </button>
-            <button class="delete-merchant icon">🗑️</button>
+            <button class="delete-merchant">Delete</button>
           </div>
-        </article>`
+        </article>` 
     })
 }
 
@@ -195,9 +207,10 @@ function displayAddedMerchant(merchant) {
       merchantsView.insertAdjacentHTML('beforeend', 
       `<article class="merchant" id="merchant-${merchant.id}">
           <h3 class="merchant-name">${merchant.attributes.name}</h3>
-          <div>
-            <button class="view-merchant-items">View Merchant Items</button>
-            <button class="edit-merchant icon">✎</button>
+          <div class="merchant-options">
+            <button class="view-merchant-coupons">View Coupons</button>
+            <button class="view-merchant-items">View Items</button>
+            <button class="edit-merchant">Edit</button>
             <input class="edit-merchant-input hidden" name="edit-merchant" type="text">
             <button class="submit-merchant-edits hidden">
               Submit Edits
@@ -205,7 +218,7 @@ function displayAddedMerchant(merchant) {
             <button class="discard-merchant-edits hidden">
               Discard Edits
             </button>
-            <button class="delete-merchant icon">🗑️</button>
+            <button class="delete-merchant">Delete</button>
           </div>
         </article>`)
 }

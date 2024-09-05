@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Little Shop</title>
   </head>
@@ -10,7 +11,7 @@
     <aside>
       <header>
         <h1>Little Shop</h1>
-        <h2>Admin Portal</h2>
+        <h2>admin portal</h2>
       </header>
       <nav>
         <button id="merchants-nav" class="active-nav">
@@ -24,24 +25,15 @@
     <main>
       <section class="display-options">
         <h3>Showing: <span id="showing-text">All Merchants</span></h3>
-        <button id="add-new-button" class="add-new-button" data-state="merchant">+ Add New</button>
-      </section>
-      <section id="add-new-options">
+        <button id="add-new-button" class="add-new-button" data-state="merchant">+ Add New Merchant</button>
         <form id="new-merchant-form" class="hidden">
-          <label for="new-merchant-name">New Merchant Name</label>
-          <input id="new-merchant-name" name="new-merchant-name" type="text">
+          <input id="new-merchant-name" name="new-merchant-name" type="text" placeholder="New Merchant Name">
           <button id="submit-merchant" class="submit">Submit</button>
         </form>
+      </section>
+      <section id="add-new-options">
+        
         <p id="status-message" class="hidden"><!-- Status message here! --></p>
-        <form id="new-merchant-form" class="hidden">
-          <label for="new-item-name">New Item Name</label>
-          <input id="new-item-name" name="new-item-name" type="text">
-          <label for="new-item-description">New Item Description</label>
-          <input id="new-item-description" name="new-item-description" type="text">
-          <label for="new-item-price">New Item Price</label>
-          <input id="new-item-price" name="new-item-price" type="text">
-          <button id="submit-item" class="submit">Submit</button>
-        </form>
       </section>
       <section id="merchants-view" class="view">
           <!-- Data will be displayed here -->
