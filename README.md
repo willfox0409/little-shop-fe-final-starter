@@ -17,7 +17,7 @@ This Vite Little Shop - Coupon Codes FE Final Project Boilerplate is built to co
 
 This FE application is build to consume the data from your Rails API.  In order for it to work, you must have your Rails API running on localhost:3000. You will see fetch errors when running the FE without the BE API up and running.  
 
-Follow the directions in the FE requirements portion of the Little Shop group project spec. When you are finished with the FE work, update this README to remove the current content and follow the template below.  
+Follow the directions in the FE requirements portion of the Little Shop Coupon Codes final project spec. When you are finished with the FE work, update this README to remove the current content and follow the template below.  
 
 ______________________________________________________  
 # README Template  
@@ -25,6 +25,8 @@ Before turning this project in, erase this line and everything above it and fill
 ______________________________________________________  
 
 # Hang in There  
+
+Link to your GitHub. Consider also providing LinkedIn link
 
 ### Abstract:
 (Briefly describe what you built and its features. What problem is the app solving? How does this application solve that problem?)
@@ -37,9 +39,6 @@ ______________________________________________________
 
 ### Context:
 (Give some context for the project here. How long did you have to work on it? What specific work/improvements did you contribute to this FE application?)
-
-### Contributors:
-(Who worked on this application? Link to your GitHub. Consider also providing LinkedIn link)
 
 ### Learning Goals:
 (What were the learning goals of this project? What tech did you work with?)
