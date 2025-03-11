@@ -239,9 +239,7 @@ function getMerchantCoupons(event) {
   fetchData(`merchants/${merchantId}/coupons`) // ADD COUPONS
   .then(couponData => {
     console.log("Coupon data from fetch:", couponData)
-    displayMerchantCoupons(couponData.data); // ADD .data
-
-    showingText.innerText = "All Available Coupons" // change header innerText
+    displayMerchantCoupons(couponData.data, merchantId) // ADD .data
   })
     .catch(err => {
       console.error("Error fetching coupons:", err)
@@ -249,9 +247,11 @@ function getMerchantCoupons(event) {
     });
 }
 
-function displayMerchantCoupons(coupons) {
+function displayMerchantCoupons(coupons, merchantId) {
   show([couponsView]) // show coupon section
-  hide([merchantsView, itemsView]) // hide these sections
+  hide([merchantsView, itemsView, addNewButton]) // hide these sections
+
+  showingText.innerText = `Showing: All Coupons for Merchant #${merchantId}` // MOVE new innerText here
 
   if (coupons.length === 0) {
     couponsView.innerHTML = `<p>No coupons available for this merchant.</p>`;
