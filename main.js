@@ -236,20 +236,40 @@ function getMerchantCoupons(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   console.log("Merchant ID:", merchantId)
 
-  fetchData(`merchants/${merchantId}`)
+  fetchData(`merchants/${merchantId}/coupons`) // ADD COUPONS
   .then(couponData => {
     console.log("Coupon data from fetch:", couponData)
-    displayMerchantCoupons(couponData);
+    displayMerchantCoupons(couponData.data, merchantId) // ADD .data
   })
+    .catch(err => {
+      console.error("Error fetching coupons:", err)
+      couponsView.innerHTML = `<p>Failed to load coupons. Try again later.</p>`; // ADD error message
+    });
 }
 
-function displayMerchantCoupons(coupons) {
-  show([couponsView])
-  hide([merchantsView, itemsView])
+function displayMerchantCoupons(coupons, merchantId) {
+  show([couponsView]) // show coupon section
+  hide([merchantsView, itemsView, addNewButton]) // hide these sections
 
-  couponsView.innerHTML = `
-    <p>Coupon data will go here.</p>
-  `
+  showingText.innerText = `Showing: All Coupons for Merchant #${merchantId}` // MOVE new innerText here
+
+  if (coupons.length === 0) {
+    couponsView.innerHTML = `<p>No coupons available for this merchant.</p>`;
+    return;
+  }
+
+  couponsView.innerHTML = ""; // clear previous content
+
+  coupons.forEach(coupon => {
+    couponsView.innerHTML += `
+      <article class="coupon">
+        <h3>${coupon.attributes.name}</h3>
+        <p><strong>Code:</strong> ${coupon.attributes.code}</p>
+        <p><strong>Discount:</strong> ${coupon.attributes.discount_value} ${coupon.attributes.discount_type}</p>
+        <p><strong>Active:</strong> ${coupon.attributes.active ? "✅ Yes" : "❌ No"}</p>
+      </article>
+    `;
+  }); 
 }
 
 //Helper Functions

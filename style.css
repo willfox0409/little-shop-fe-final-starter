@@ -196,6 +196,21 @@ h3 {
   color: var(--red);
 }
 
+/* COUPONS */ 
+
+.coupon {
+  background-color: white; 
+  padding: 15px; 
+  margin: 15px 0; 
+  border-radius: 5px; 
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.coupon:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
 /* STATUS MESSAGES */
 .success {
   color: var(--green);
