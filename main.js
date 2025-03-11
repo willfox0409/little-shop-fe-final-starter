@@ -240,9 +240,11 @@ function getMerchantCoupons(event) {
   .then(couponData => {
     console.log("Coupon data from fetch:", couponData)
     displayMerchantCoupons(couponData.data); // ADD .data
+
+    showingText.innerText = "All Available Coupons" // change header innerText
   })
     .catch(err => {
-      console.error("Error fetching coupons:", err);
+      console.error("Error fetching coupons:", err)
       couponsView.innerHTML = `<p>Failed to load coupons. Try again later.</p>`; // ADD error message
     });
 }
